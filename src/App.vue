@@ -12,9 +12,35 @@ const canRenderGraph = computed(() => {
   return username1.value && username2.value;
 });
 
-const renderGraph = () => {
+const renderGraph = async () => {
   if (canRenderGraph.value) {
-    shouldRenderGraph.value = true;
+    const user1Response = await fetch(
+      `https://api.github.com/users/${username1.value}`
+    );
+
+    const user2Response = await fetch(
+      `https://api.github.com/users/${username2.value}`
+    );
+
+    if (user1Response.status === 404) {
+      toast.add({
+        severity: "warn",
+        summary: "Warning",
+        detail: `${username1.value}'s github account could not be found`,
+        life: 3000,
+      });
+    }
+    if (user2Response.status === 404) {
+      toast.add({
+        severity: "warn",
+        summary: "Warning",
+        detail: `${username2.value}'s github account could not be found`,
+        life: 3000,
+      });
+    }
+    if (user1Response.status !== 404 && user2Response.status !== 404) {
+      shouldRenderGraph.value = true;
+    }
   } else {
     toast.add({
       severity: "warn",

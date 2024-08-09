@@ -3,6 +3,7 @@ import { ref, onMounted } from "vue";
 
 const props = defineProps({
   contributions: Object,
+  theme: Object,
 });
 
 const isLoading = ref(true);
@@ -11,15 +12,15 @@ const months = ref([]);
 
 const getColor = (level) => {
   if (level === 0) {
-    return { backgroundColor: "#ebedf0" };
+    return { backgroundColor: props.theme.palette[4] };
   } else if (level <= 3) {
-    return { backgroundColor: "#9be9a8" };
+    return { backgroundColor: props.theme.palette[3] };
   } else if (level <= 6) {
-    return { backgroundColor: "#40c463" };
+    return { backgroundColor: props.theme.palette[2] };
   } else if (level <= 9) {
-    return { backgroundColor: "#30a14e" };
+    return { backgroundColor: props.theme.palette[1] };
   } else {
-    return { backgroundColor: "#216e39" };
+    return { backgroundColor: props.theme.palette[0] };
   }
 };
 
@@ -125,7 +126,6 @@ ul {
   padding-right: 20px;
   padding-left: 0px;
   padding-bottom: 15px;
-  margin-left: 7%;
 }
 
 .squares li {

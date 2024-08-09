@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@primevue/themes": "^4.0.3",
-    "bootstrap": "^5.3.3",
     "chart.js": "^4.4.3",
+    "primeicons": "^7.0.0",
     "primevue": "^4.0.3",
     "vue": "^3.4.31"
   },

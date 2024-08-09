@@ -7,6 +7,7 @@ import ContributionsGraph from "./ContributionsGraph.vue";
 const props = defineProps({
   username1: String,
   username2: String,
+  theme: Object,
 });
 
 const user1Contributions = ref(null);
@@ -101,15 +102,31 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="grid grid-rows-4 gap-4 text-center">
+  <div class="grid grid-rows-4 gap-4 text-center px-64 pt-5">
     <div>
-      <canvas id="contributionsGraph" class="chart pl-5 pr-5"></canvas>
+      <div class="color-squares justify-center float-right">
+        <span class="mr-2">more</span>
+        <li
+          v-for="colour in props.theme.palette"
+          :key="colour"
+          :style="{ 'background-color': colour }"
+          class="color-square m-1"
+        ></li>
+        <span class="ml-2">less</span>
+      </div>
+      <h1>Combined Contributions</h1>
+      <ContributionsGraph
+        v-if="!isLoading"
+        :contributions="combinedContributions"
+        :theme="theme"
+      />
     </div>
     <div>
       <h1>{{ props.username1 }}</h1>
       <ContributionsGraph
         v-if="!isLoading"
         :contributions="user1Contributions"
+        :theme="theme"
       />
     </div>
     <div>
@@ -117,14 +134,12 @@ onMounted(() => {
       <ContributionsGraph
         v-if="!isLoading"
         :contributions="user2Contributions"
+        :theme="theme"
       />
     </div>
+
     <div>
-      <h1>Combined Contributions</h1>
-      <ContributionsGraph
-        v-if="!isLoading"
-        :contributions="combinedContributions"
-      />
+      <canvas id="contributionsGraph" class="chart pl-5 pr-5"></canvas>
     </div>
   </div>
 </template>
@@ -133,5 +148,15 @@ onMounted(() => {
 .chart {
   width: 100%;
   max-height: 300px;
+}
+
+.color-squares {
+  display: flex;
+}
+
+.color-square {
+  width: 15px;
+  height: 15px;
+  list-style-type: none;
 }
 </style>

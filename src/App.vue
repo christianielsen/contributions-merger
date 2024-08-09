@@ -8,6 +8,10 @@ const username1 = ref(null);
 const username2 = ref(null);
 const shouldRenderGraph = ref(false);
 const toast = useToast();
+const theme = ref({
+  themeName: "Forest",
+  palette: ["#006400", "#228B22", "#32CD32", "#7CFC00", "#FFF3E0"],
+});
 
 const renderGraph = async () => {
   const user1Response = await fetch(
@@ -52,6 +56,10 @@ const handleWarning = (message) => {
     life: 3000,
   });
 };
+
+const handleThemeChange = (newTheme) => {
+  theme.value = newTheme;
+};
 </script>
 
 <template>
@@ -59,12 +67,14 @@ const handleWarning = (message) => {
     <Sidebar
       @submit="handleSubmit"
       @warning="handleWarning"
+      @theme="handleThemeChange"
       class="col-span-2"
     />
     <ContributionsChart
       v-if="shouldRenderGraph"
       :username1="username1"
       :username2="username2"
+      :theme="theme"
       class="col-span-10"
     />
   </div>

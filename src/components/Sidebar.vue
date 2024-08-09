@@ -66,7 +66,9 @@ const emitSubmit = () => {
         <InputText id="username2" type="text" v-model="localUsername2" />
         <label for="username2">Username2</label>
       </FloatLabel>
-      <Button class="mt-3" @click="emitSubmit()">Render Graphs</Button>
+      <Button class="mt-3" icon="pi pi-plus" />
+      <br />
+      <Button class="mt-3" @click="emitSubmit()" label="Render Graphs" />
     </div>
     <div class="p-5">
       <h2 class="font-bold text-lg">Themes</h2>

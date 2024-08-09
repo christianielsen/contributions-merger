@@ -125,7 +125,6 @@ ul {
   padding-right: 20px;
   padding-left: 0px;
   padding-bottom: 15px;
-  margin-left: 7%;
 }
 
 .squares li {

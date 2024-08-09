@@ -101,16 +101,32 @@ onMounted(() => {
 </script>
 
 <template>
-  <canvas id="contributionsGraph" class="chart"></canvas>
-  <h1>{{ props.username1 }}</h1>
-  <ContributionsGraph v-if="!isLoading" :contributions="user1Contributions" />
-  <h1>{{ props.username2 }}</h1>
-  <ContributionsGraph v-if="!isLoading" :contributions="user2Contributions" />
-  <h1>Combined Contributions</h1>
-  <ContributionsGraph
-    v-if="!isLoading"
-    :contributions="combinedContributions"
-  />
+  <div class="grid grid-rows-4 gap-4 text-center">
+    <div>
+      <canvas id="contributionsGraph" class="chart pl-5 pr-5"></canvas>
+    </div>
+    <div>
+      <h1>{{ props.username1 }}</h1>
+      <ContributionsGraph
+        v-if="!isLoading"
+        :contributions="user1Contributions"
+      />
+    </div>
+    <div>
+      <h1>{{ props.username2 }}</h1>
+      <ContributionsGraph
+        v-if="!isLoading"
+        :contributions="user2Contributions"
+      />
+    </div>
+    <div>
+      <h1>Combined Contributions</h1>
+      <ContributionsGraph
+        v-if="!isLoading"
+        :contributions="combinedContributions"
+      />
+    </div>
+  </div>
 </template>
 
 <style scoped>

@@ -7,21 +7,15 @@ const props = defineProps({
 });
 
 const isLoading = ref(true);
-
+const highestContribution = ref("");
 const months = ref([]);
 
 const getColor = (level) => {
-  if (level === 0) {
-    return { backgroundColor: props.theme.palette[4] };
-  } else if (level <= 3) {
-    return { backgroundColor: props.theme.palette[3] };
-  } else if (level <= 6) {
-    return { backgroundColor: props.theme.palette[2] };
-  } else if (level <= 9) {
-    return { backgroundColor: props.theme.palette[1] };
-  } else {
-    return { backgroundColor: props.theme.palette[0] };
-  }
+  const normalizedLevel = level / highestContribution.value;
+  const paletteIndex = Math.floor(
+    (1 - normalizedLevel) * (props.theme.palette.length - 1)
+  );
+  return { backgroundColor: props.theme.palette[paletteIndex] };
 };
 
 onMounted(() => {
@@ -36,6 +30,8 @@ onMounted(() => {
   });
 
   months.value = tempMonths;
+
+  highestContribution.value = Math.max(...props.contributions.contributions);
 
   isLoading.value = false;
 });

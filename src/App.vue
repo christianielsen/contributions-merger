@@ -4,8 +4,7 @@ import { useToast } from "primevue/usetoast";
 import ContributionsChart from "./components/ContributionsChart.vue";
 import Sidebar from "./components/Sidebar.vue";
 
-const username1 = ref(null);
-const username2 = ref(null);
+const usernames = ref([]);
 const shouldRenderGraph = ref(false);
 const toast = useToast();
 const theme = ref({
@@ -14,37 +13,30 @@ const theme = ref({
 });
 
 const renderGraph = async () => {
-  const user1Response = await fetch(
-    `https://api.github.com/users/${username1.value}`
-  );
-  const user2Response = await fetch(
-    `https://api.github.com/users/${username2.value}`
+  const responses = await Promise.all(
+    usernames.value.map((username) =>
+      fetch(`https://api.github.com/users/${username}`)
+    )
   );
 
-  if (user1Response.status === 404) {
-    toast.add({
-      severity: "warn",
-      summary: "Warning",
-      detail: `${username1.value}'s github account could not be found`,
-      life: 3000,
-    });
-  }
-  if (user2Response.status === 404) {
-    toast.add({
-      severity: "warn",
-      summary: "Warning",
-      detail: `${username2.value}'s github account could not be found`,
-      life: 3000,
-    });
-  }
-  if (user1Response.status !== 404 && user2Response.status !== 404) {
-    shouldRenderGraph.value = true;
-  }
+  let allValid = true;
+  responses.forEach((response, index) => {
+    if (response.status === 404) {
+      toast.add({
+        severity: "warn",
+        summary: "Warning",
+        detail: `${usernames.value[index]}'s github account could not be found`,
+        life: 3000,
+      });
+      allValid = false;
+    }
+  });
+
+  shouldRenderGraph.value = allValid;
 };
 
-const handleSubmit = ({ username1: u1, username2: u2 }) => {
-  username1.value = u1;
-  username2.value = u2;
+const handleSubmit = (usernamesArray) => {
+  usernames.value = usernamesArray;
   renderGraph();
 };
 
@@ -72,8 +64,7 @@ const handleThemeChange = (newTheme) => {
     />
     <ContributionsChart
       v-if="shouldRenderGraph"
-      :username1="username1"
-      :username2="username2"
+      :usernames="usernames"
       :theme="theme"
       class="col-span-10"
     />

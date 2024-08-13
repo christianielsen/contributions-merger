@@ -5,13 +5,11 @@ import Chart from "chart.js/auto";
 import ContributionsGraph from "./ContributionsGraph.vue";
 
 const props = defineProps({
-  username1: String,
-  username2: String,
+  usernames: Array,
   theme: Object,
 });
 
-const user1Contributions = ref(null);
-const user2Contributions = ref(null);
+const userContributions = ref([]);
 const combinedContributions = ref(null);
 const isLoading = ref(true);
 
@@ -50,51 +48,47 @@ const createChart = (ctx, dates, datasets) => {
 };
 
 onMounted(() => {
-  Promise.all([
-    fetchContributions(props.username1),
-    fetchContributions(props.username2),
-  ]).then(([user1Data, user2Data]) => {
-    user1Contributions.value = user1Data;
-    user2Contributions.value = user2Data;
+  Promise.all(
+    props.usernames.map((username) => fetchContributions(username))
+  ).then((contributionsData) => {
+    userContributions.value = contributionsData;
 
-    const tempCombinedContributions = user1Data.contributions.map(
-      (count, index) => count + user2Data.contributions[index]
+    const tempCombinedContributions = contributionsData[0].contributions.map(
+      (count, index) =>
+        contributionsData.reduce(
+          (sum, data) => sum + data.contributions[index],
+          0
+        )
     );
 
     combinedContributions.value = {
-      dates: user1Data.dates,
+      dates: contributionsData[0].dates,
       contributions: tempCombinedContributions,
     };
 
-    const datasets = [
-      {
-        label: `${props.username1} Contributions`,
-        data: user1Data.contributions,
-        borderColor: "rgba(75, 192, 192, 1)",
-        borderWidth: 1,
-        fill: false,
-      },
-      {
-        label: `${props.username2} Contributions`,
-        data: user2Data.contributions,
-        borderColor: "rgba(192, 75, 192, 1)",
-        borderWidth: 1,
-        fill: false,
-      },
-      {
-        label: "Combined Contributions",
-        data: tempCombinedContributions,
-        borderColor: "rgba(192, 192, 75, 1)",
-        borderWidth: 1,
-        fill: false,
-      },
-    ];
+    const datasets = contributionsData.map((data, index) => ({
+      label: `${props.usernames[index]} Contributions`,
+      data: data.contributions,
+      borderColor: `rgba(${75 + index * 50}, ${192 - index * 50}, ${
+        192 - index * 50
+      }, 1)`,
+      borderWidth: 1,
+      fill: false,
+    }));
+
+    datasets.push({
+      label: "Combined Contributions",
+      data: tempCombinedContributions,
+      borderColor: "rgba(192, 192, 75, 1)",
+      borderWidth: 1,
+      fill: false,
+    });
 
     const contributionsGraph = document
       .getElementById("contributionsGraph")
       .getContext("2d");
 
-    createChart(contributionsGraph, user1Data.dates, datasets);
+    createChart(contributionsGraph, contributionsData[0].dates, datasets);
 
     isLoading.value = false;
   });
@@ -114,26 +108,23 @@ onMounted(() => {
         ></li>
         <span class="ml-2">less</span>
       </div>
-      <h1>Combined Contributions</h1>
+      <h1>
+        Combined Contributions
+        <font-awesome-icon icon="fa-solid fa-object-group" />
+      </h1>
       <ContributionsGraph
         v-if="!isLoading"
         :contributions="combinedContributions"
         :theme="theme"
       />
     </div>
-    <div>
-      <h1>{{ props.username1 }}</h1>
+    <div v-for="(contribution, index) in userContributions" :key="index">
+      <h1>
+        {{ props.usernames[index] }}
+      </h1>
       <ContributionsGraph
         v-if="!isLoading"
-        :contributions="user1Contributions"
-        :theme="theme"
-      />
-    </div>
-    <div>
-      <h1>{{ props.username2 }}</h1>
-      <ContributionsGraph
-        v-if="!isLoading"
-        :contributions="user2Contributions"
+        :contributions="contribution"
         :theme="theme"
       />
     </div>

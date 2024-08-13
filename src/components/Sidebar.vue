@@ -3,8 +3,7 @@ import { ref, watch } from "vue";
 
 const emit = defineEmits(["submit", "warning", "theme"]);
 
-const localUsername1 = ref(null);
-const localUsername2 = ref(null);
+const localUsernames = ref([{ id: Date.now(), value: null }]);
 const themes = ref([
   {
     themeName: "Forest",
@@ -42,14 +41,18 @@ watch(selectedTheme, async (newTheme) => {
   emit("theme", newTheme);
 });
 
+const addUsernameField = () => {
+  localUsernames.value.push({ id: Date.now(), value: null });
+};
+
 const emitSubmit = () => {
-  if (localUsername1.value && localUsername2.value) {
-    emit("submit", {
-      username1: localUsername1.value,
-      username2: localUsername2.value,
-    });
+  const usernamesArray = localUsernames.value
+    .map((u) => u.value)
+    .filter(Boolean);
+  if (usernamesArray.length > 0) {
+    emit("submit", usernamesArray);
   } else {
-    emit("warning", "Please enter both usernames");
+    emit("warning", "Please enter at least one username");
   }
 };
 </script>
@@ -58,15 +61,26 @@ const emitSubmit = () => {
   <div>
     <h1 class="font-black text-xl p-5">Github Contributions Merger</h1>
     <div class="p-5">
-      <FloatLabel class="mb-5">
-        <InputText id="username1" type="text" v-model="localUsername1" />
-        <label for="username1">Username1</label>
+      <div
+        v-for="(username, index) in localUsernames"
+        :key="username.id"
+        class="mb-5"
+      >
+        <FloatLabel>
+          <InputText
+            :id="'username' + index"
+            type="text"
+            v-model="username.value"
+          />
+          <label :for="'username' + index">Username {{ index + 1 }}</label>
       </FloatLabel>
-      <FloatLabel class="mt-6">
-        <InputText id="username2" type="text" v-model="localUsername2" />
-        <label for="username2">Username2</label>
-      </FloatLabel>
-      <Button class="mt-3" icon="pi pi-plus" />
+      </div>
+      <Button
+        class="mt-3"
+        icon="pi pi-plus"
+        @click="addUsernameField"
+        label="Add Username"
+      />
       <br />
       <Button class="mt-3" @click="emitSubmit()" label="Render Graphs" />
     </div>

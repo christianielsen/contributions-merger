@@ -1,4 +1,7 @@
 import { createApp } from "vue";
+import App from "./App.vue";
+import "./index.css";
+
 // PrimeVue components
 import PrimeVue from "primevue/config";
 import InputText from "primevue/inputtext";
@@ -7,12 +10,25 @@ import FloatLabel from "primevue/floatlabel";
 import ToastService from "primevue/toastservice";
 import Toast from "primevue/toast";
 import RadioButton from "primevue/RadioButton";
-
 import lara from "@primevue/themes/lara";
-import App from "./App.vue";
-import "./index.css";
+
+/* import the fontawesome core */
+import { library } from "@fortawesome/fontawesome-svg-core";
+
+/* import font awesome icon component */
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
+/* import specific icons */
+import {
+  faDrawPolygon,
+  faObjectGroup,
+} from "@fortawesome/free-solid-svg-icons";
+
+/* add icons to the library */
+library.add(faDrawPolygon, faObjectGroup);
 
 const app = createApp(App);
+app.component("font-awesome-icon", FontAwesomeIcon);
 app.use(PrimeVue, {
   theme: {
     preset: lara,

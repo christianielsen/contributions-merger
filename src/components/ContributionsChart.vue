@@ -72,16 +72,16 @@ onMounted(() => {
       borderColor: `rgba(${75 + index * 50}, ${192 - index * 50}, ${
         192 - index * 50
       }, 1)`,
-        borderWidth: 1,
-        fill: false,
+      borderWidth: 1,
+      fill: false,
     }));
 
     datasets.push({
-        label: "Combined Contributions",
-        data: tempCombinedContributions,
-        borderColor: "rgba(192, 192, 75, 1)",
-        borderWidth: 1,
-        fill: false,
+      label: "Combined Contributions",
+      data: tempCombinedContributions,
+      borderColor: "rgba(192, 192, 75, 1)",
+      borderWidth: 1,
+      fill: false,
     });
 
     const contributionsGraph = document
@@ -108,7 +108,10 @@ onMounted(() => {
         ></li>
         <span class="ml-2">less</span>
       </div>
-      <h1>Combined Contributions</h1>
+      <h1>
+        Combined Contributions
+        <font-awesome-icon icon="fa-solid fa-object-group" />
+      </h1>
       <ContributionsGraph
         v-if="!isLoading"
         :contributions="combinedContributions"

@@ -73,7 +73,7 @@ const emitSubmit = () => {
             v-model="username.value"
           />
           <label :for="'username' + index">Username {{ index + 1 }}</label>
-      </FloatLabel>
+        </FloatLabel>
       </div>
       <Button
         class="mt-3"
@@ -82,7 +82,10 @@ const emitSubmit = () => {
         label="Add Username"
       />
       <br />
-      <Button class="mt-3" @click="emitSubmit()" label="Render Graphs" />
+      <Button class="mt-3" @click="emitSubmit()" label="Render Graphs">
+        <template #icon>
+          <font-awesome-icon icon="fa-solid fa-draw-polygon" /></template
+      ></Button>
     </div>
     <div class="p-5">
       <h2 class="font-bold text-lg">Themes</h2>

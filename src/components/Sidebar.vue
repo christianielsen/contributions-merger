@@ -3,7 +3,10 @@ import { ref, watch } from "vue";
 
 const emit = defineEmits(["submit", "warning", "theme"]);
 
-const localUsernames = ref([{ id: Date.now(), value: null }]);
+const localUsernames = ref([
+  { id: Date.now(), value: null },
+  { id: Date.now() + 1, value: null },
+]);
 const themes = ref([
   {
     themeName: "Forest",

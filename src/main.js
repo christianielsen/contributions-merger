@@ -10,6 +10,7 @@ import FloatLabel from "primevue/floatlabel";
 import ToastService from "primevue/toastservice";
 import Toast from "primevue/toast";
 import RadioButton from "primevue/RadioButton";
+import InputGroup from "primevue/inputgroup";
 import lara from "@primevue/themes/lara";
 
 /* import the fontawesome core */
@@ -39,6 +40,7 @@ app.component("Button", Button);
 app.component("FloatLabel", FloatLabel);
 app.component("Toast", Toast);
 app.component("RadioButton", RadioButton);
+app.component("InputGroup", InputGroup);
 app.use(ToastService);
 
 app.mount("#app");

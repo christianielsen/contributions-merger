@@ -58,6 +58,10 @@ const emitSubmit = () => {
     emit("warning", "Please enter at least one username");
   }
 };
+
+const removeUsername = (index) => {
+  localUsernames.value.splice(index, 1);
+};
 </script>
 
 <template>
@@ -70,11 +74,21 @@ const emitSubmit = () => {
         class="mb-5"
       >
         <FloatLabel>
+          <InputGroup>
           <InputText
             :id="'username' + index"
             type="text"
             v-model="username.value"
+:disabled="disableComponents"
+            />
+            <Button
+              icon="pi pi-minus"
+              severity="danger"
+              v-if="index !== 0 && index !== 1"
+              @click="removeUsername(index)"
+              :disabled="disableComponents"
           />
+          </InputGroup>
           <label :for="'username' + index">Username {{ index + 1 }}</label>
         </FloatLabel>
       </div>

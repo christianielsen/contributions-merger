@@ -3,6 +3,7 @@ import { ref, watch } from "vue";
 
 const emit = defineEmits(["submit", "warning", "theme"]);
 
+const disableComponents = ref(false);
 const localUsernames = ref([
   { id: Date.now(), value: null },
   { id: Date.now() + 1, value: null },
@@ -54,6 +55,7 @@ const emitSubmit = () => {
     .filter(Boolean);
   if (usernamesArray.length > 0) {
     emit("submit", usernamesArray);
+    disableComponents.value = true;
   } else {
     emit("warning", "Please enter at least one username");
   }
@@ -75,11 +77,11 @@ const removeUsername = (index) => {
       >
         <FloatLabel>
           <InputGroup>
-          <InputText
-            :id="'username' + index"
-            type="text"
-            v-model="username.value"
-:disabled="disableComponents"
+            <InputText
+              :id="'username' + index"
+              type="text"
+              v-model="username.value"
+              :disabled="disableComponents"
             />
             <Button
               icon="pi pi-minus"
@@ -87,7 +89,7 @@ const removeUsername = (index) => {
               v-if="index !== 0 && index !== 1"
               @click="removeUsername(index)"
               :disabled="disableComponents"
-          />
+            />
           </InputGroup>
           <label :for="'username' + index">Username {{ index + 1 }}</label>
         </FloatLabel>
@@ -97,9 +99,15 @@ const removeUsername = (index) => {
         icon="pi pi-plus"
         @click="addUsernameField"
         label="Add Username"
+        :disabled="disableComponents"
       />
       <br />
-      <Button class="mt-3" @click="emitSubmit()" label="Render Graphs">
+      <Button
+        class="mt-3"
+        @click="emitSubmit()"
+        label="Render Graphs"
+        :disabled="disableComponents"
+      >
         <template #icon>
           <font-awesome-icon icon="fa-solid fa-draw-polygon" /></template
       ></Button>

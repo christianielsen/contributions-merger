@@ -9,7 +9,7 @@ import Button from "primevue/button";
 import FloatLabel from "primevue/floatlabel";
 import ToastService from "primevue/toastservice";
 import Toast from "primevue/toast";
-import RadioButton from "primevue/RadioButton";
+import RadioButton from "primevue/radiobutton";
 import InputGroup from "primevue/inputgroup";
 import lara from "@primevue/themes/lara";
 

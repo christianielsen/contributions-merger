@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3002;
 
 app.use(express.json());
 const corsOptions = {
@@ -34,11 +34,13 @@ app.get("/contributions", async (req, res) => {
     const data = await response.json();
     res.json(data);
   } catch (err) {
-    console.error("Error fetching contributions:", error);
-    throw error;
+    console.error("Error fetching contributions:", err);
+    throw err;
   }
 });
 
 app.listen(PORT, () => {
   console.log(`${PORT}`);
 });
+
+module.exports = app;

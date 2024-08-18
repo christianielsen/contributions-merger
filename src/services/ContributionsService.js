@@ -4,7 +4,7 @@ export const ContributionsService = {
       const response = await fetch(
         `${
           import.meta.env.VITE_BACKEND_URL
-        }/api/contributions?username=${username}`,
+        }/contributions?username=${username}`,
         {
           method: "GET",
           headers: {

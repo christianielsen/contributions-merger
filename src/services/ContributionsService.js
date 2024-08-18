@@ -1,18 +1,17 @@
 export const ContributionsService = {
   async getContributions(username) {
-    const query = `query($userName: String!) { user(login: $userName) { contributionsCollection { contributionCalendar { totalContributions weeks { contributionDays { contributionCount date } } } } } }`;
     try {
-      const response = await fetch("https://api.github.com/graphql", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${import.meta.env.VITE_GITHUB_TOKEN}`,
-        },
-        body: JSON.stringify({
-          query,
-          variables: { userName: username },
-        }),
-      });
+      const response = await fetch(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/contributions?username=${username}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

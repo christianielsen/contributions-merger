@@ -19,7 +19,7 @@ const themes = ref([
   },
   {
     themeName: "Warmer",
-    palette: ["#e93e3a", "#e93e3a", "#f3903f", "#fdc70c", "#FFF3E0"],
+    palette: ["#FF0000", "#e93e3a", "#f3903f", "#fdc70c", "#FFF3E0"],
   },
   {
     themeName: "Cool",

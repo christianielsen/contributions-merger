@@ -19,7 +19,10 @@ permissions:
 concurrency:
   group: 'pages'
   cancel-in-progress: true
-
+  
+env:
+  VITE_BACKEND_URL: ${{ secrets.VITE_BACKEND_URL }}
+  
 jobs:
   # Single deploy job since we're just deploying
   deploy:
@@ -49,5 +52,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        env:
-          VITE_BACKEND_URL: ${{ secrets.VITE_BACKEND_URL }}

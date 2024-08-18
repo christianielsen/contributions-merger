@@ -11,7 +11,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-app.get("/api/contributions", async (req, res) => {
+app.get("/contributions", async (req, res) => {
   const query = `query($userName: String!) { user(login: $userName) { contributionsCollection { contributionCalendar { totalContributions weeks { contributionDays { contributionCount date } } } } } }`;
   try {
     const username = req.query.username;

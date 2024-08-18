@@ -49,3 +49,5 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        env:
+          VITE_BACKEND_URL: ${{ secrets.VITE_BACKEND_URL }}

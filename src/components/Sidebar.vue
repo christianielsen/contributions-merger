@@ -128,6 +128,7 @@ const exportGraph = () => {
         icon="pi pi-download"
         label="Export"
         @click="exportGraph()"
+        v-if="graphsRendered"
       />
     </div>
     <div class="p-5" v-if="graphsRendered">

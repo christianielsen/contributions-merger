@@ -3,7 +3,7 @@ import { ref, watch } from "vue";
 
 const emit = defineEmits(["submit", "warning", "theme"]);
 
-const disableComponents = ref(false);
+const graphsRendered = ref(false);
 const localUsernames = ref([
   { id: Date.now(), value: null },
   { id: Date.now() + 1, value: null },
@@ -55,7 +55,7 @@ const emitSubmit = () => {
     .filter(Boolean);
   if (usernamesArray.length > 0) {
     emit("submit", usernamesArray);
-    disableComponents.value = true;
+    graphsRendered.value = true;
   } else {
     emit("warning", "Please enter at least one username");
   }
@@ -81,14 +81,14 @@ const removeUsername = (index) => {
               :id="'username' + index"
               type="text"
               v-model="username.value"
-              :disabled="disableComponents"
+              :disabled="graphsRendered"
             />
             <Button
               icon="pi pi-minus"
               severity="danger"
               v-if="index !== 0 && index !== 1"
               @click="removeUsername(index)"
-              :disabled="disableComponents"
+              :disabled="graphsRendered"
             />
           </InputGroup>
           <label :for="'username' + index">Username {{ index + 1 }}</label>
@@ -99,20 +99,20 @@ const removeUsername = (index) => {
         icon="pi pi-plus"
         @click="addUsernameField"
         label="Add Username"
-        :disabled="disableComponents"
+        :disabled="graphsRendered"
       />
       <br />
       <Button
         class="mt-3"
         @click="emitSubmit()"
         label="Render Graphs"
-        :disabled="disableComponents"
+        :disabled="graphsRendered"
       >
         <template #icon>
           <font-awesome-icon icon="fa-solid fa-draw-polygon" /></template
       ></Button>
     </div>
-    <div class="p-5">
+    <div class="p-5" v-if="graphsRendered">
       <h2 class="font-bold text-lg">Themes</h2>
       <div
         v-for="theme in themes"

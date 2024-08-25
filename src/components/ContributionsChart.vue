@@ -96,7 +96,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="grid grid-rows-4 gap-4 text-center px-64 pt-5">
+  <div
+    class="grid grid-rows-4 gap-4 text-center px-64 pt-5"
+    id="graph-container"
+  >
     <div>
       <div class="color-squares justify-center float-right">
         <span class="mr-2">more</span>

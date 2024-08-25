@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch } from "vue";
+import html2canvas from "html2canvas";
 
 const emit = defineEmits(["submit", "warning", "theme"]);
 
@@ -64,6 +65,16 @@ const emitSubmit = () => {
 const removeUsername = (index) => {
   localUsernames.value.splice(index, 1);
 };
+
+const exportGraph = () => {
+  const graphElement = document.querySelector("#graph-container");
+  html2canvas(graphElement, { backgroundColor: null }).then((canvas) => {
+    const link = document.createElement("a");
+    link.href = canvas.toDataURL("image/png");
+    link.download = "contributions-graph.png";
+    link.click();
+  });
+};
 </script>
 
 <template>
@@ -111,6 +122,13 @@ const removeUsername = (index) => {
         <template #icon>
           <font-awesome-icon icon="fa-solid fa-draw-polygon" /></template
       ></Button>
+      <br />
+      <Button
+        class="mt-3"
+        icon="pi pi-download"
+        label="Export"
+        @click="exportGraph()"
+      />
     </div>
     <div class="p-5" v-if="graphsRendered">
       <h2 class="font-bold text-lg">Themes</h2>

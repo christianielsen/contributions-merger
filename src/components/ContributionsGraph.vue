@@ -6,7 +6,6 @@ const props = defineProps({
   theme: Object,
 });
 
-const isLoading = ref(true);
 const highestContribution = ref("");
 const months = ref([]);
 
@@ -32,35 +31,31 @@ onMounted(() => {
   months.value = tempMonths;
 
   highestContribution.value = Math.max(...props.contributions.contributions);
-
-  isLoading.value = false;
 });
 </script>
 
 <template>
-  <div v-if="!isLoading">
-    <div class="graph">
-      <ul class="months">
-        <li v-for="month in months">{{ month }}</li>
-      </ul>
-      <ul class="days">
-        <li>Sun</li>
-        <li>Mon</li>
-        <li>Tue</li>
-        <li>Wed</li>
-        <li>Thu</li>
-        <li>Fri</li>
-        <li>Sat</li>
-      </ul>
-      <ul class="squares">
-        <li
-          v-for="(contribution, index) in props.contributions.contributions"
-          :style="getColor(contribution)"
-          :data-title="`Contributions on ${props.contributions.dates[index]}: ${contribution}`"
-          class="tooltip"
-        ></li>
-      </ul>
-    </div>
+  <div class="graph">
+    <ul class="months">
+      <li v-for="month in months">{{ month }}</li>
+    </ul>
+    <ul class="days">
+      <li>Sun</li>
+      <li>Mon</li>
+      <li>Tue</li>
+      <li>Wed</li>
+      <li>Thu</li>
+      <li>Fri</li>
+      <li>Sat</li>
+    </ul>
+    <ul class="squares">
+      <li
+        v-for="(contribution, index) in props.contributions.contributions"
+        :style="getColor(contribution)"
+        :data-title="`Contributions on ${props.contributions.dates[index]}: ${contribution}`"
+        class="tooltip"
+      ></li>
+    </ul>
   </div>
 </template>
 

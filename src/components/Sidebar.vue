@@ -54,7 +54,7 @@ const emitSubmit = () => {
   const usernamesArray = localUsernames.value
     .map((u) => u.value)
     .filter(Boolean);
-  if (usernamesArray.length > 0) {
+  if (usernamesArray.length >= 2) {
     emit("submit", usernamesArray);
     graphsRendered.value = true;
   } else {

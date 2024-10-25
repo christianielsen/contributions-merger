@@ -1,0 +1,9 @@
+<template>
+  <a
+    href="http://localhost:5173/contributions-merger/URLImage?usernames=christianielsen,aquariuschris"
+  >
+    <img
+      src="http://localhost:5173/contributions-merger/URLImage?usernames=christianielsen,aquariuschris"
+    />
+  </a>
+</template>

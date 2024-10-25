@@ -2,6 +2,8 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import "./index.css";
 
+import router from "../router";
+
 // PrimeVue components
 import PrimeVue from "primevue/config";
 import InputText from "primevue/inputtext";
@@ -29,7 +31,10 @@ import {
 library.add(faDrawPolygon, faObjectGroup);
 
 const app = createApp(App);
+app.use(router);
+
 app.component("font-awesome-icon", FontAwesomeIcon);
+
 app.use(PrimeVue, {
   theme: {
     preset: lara,
